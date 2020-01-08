@@ -37,10 +37,11 @@ def get_rank():
 			user_rank = get_queue_rank(entry)
 		else:
 			user_rank = user_rank+"\n"+get_queue_rank(entry)
-	if user_rank == "" : #CHECK_if_empty 
-		pring("USER EMPTY")
-	else:
-		print ("Queue Name\tDivision Rank\n"+user_rank) #FORMATAT COLUMNES
+	if user_rank != "" : #CHECK_if_empty 
+		print ("\nQueue Name\tTier\t\tDivision\tlp\tLeague Name\n-----------------------------------------------------------------------------------\n"+user_rank) #FORMATAT COLUMNES
+#	else:
+		#print("USER EMPTY")##debugg
+
 
 #GET_QUEUE_NAME
 def get_queue_rank(entry):
@@ -48,11 +49,16 @@ def get_queue_rank(entry):
 		queue_name = "Solo/Duo 5v5"
 	elif ("flex" in str([entry.queue])):
 		queue_name = "Flex 5v5"
-#		queue_values = "Flex 5v5:\t"+str(entry.tier)+" "+str(entry.division)+" "+str(entry.league_points)+" LP's "+str(entry.league.name)
 	else:
 		queue_name = "NotDetectedQueue"
 
-	queue_values = queue_name+"\t"+str(entry.tier)+" "+str(entry.division)+" "+str(entry.league_points)+" LP\'s "+str(entry.league.name)
+	#Formating/check_tier
+	if (str(entry.tier) == "Diamond"):
+		f_tier=str(entry.tier)+"\t"
+	elif (str(entry.tier) == "Platinum") :
+		f_tier=str(entry.tier)
+
+	queue_values = queue_name+"\t"+f_tier+"\t"+str(entry.division)+"\t\t"+str(entry.league_points)+"\t"+str(entry.league.name)
 	return(queue_values)
 #Mastery
 
