@@ -19,7 +19,7 @@ bot = commands.Bot(command_prefix=",", description=description)
 ##Variables
 where_i_im="/var/git/lol_somthing/" #where is the file/folder of this python document...
 user_folder=where_i_im+"users/"
-blacklist_folder=user_folder+"blacklist/"
+blacklist_folder=user_folder+"blacklists/"
 summonerlist_folder=user_folder+"summonerlist/"
 
 client = discord.Client()
@@ -135,7 +135,7 @@ async def mastery(ctx,arg1,arg2,arg3):
 ## Summ List
 
 @bot.command(pass_context=True)
-async def list_add(ctx, arg1):
+async def list_add(ctx, arg1=None):
 	if arg1 is None:	#if not user:
 		await ctx.send("Please, introduce a summoner name to add inside the list!")
 	else:
@@ -153,6 +153,8 @@ async def list_add(ctx, arg1):
 				await ctx.send("["+summ_name+"] added to the summoner list")
 			else:
 				await ctx.send("["+summ_name+"] is alredy inside the summoner list")
+			summoner_list_file_r.close()
+			summoner_list_file_a.close()
 		except FileNotFoundError:
 			await ctx.send ("Wait... what?! contact the administrator this isn't supposed to happen!")
 
@@ -209,10 +211,80 @@ async def list_del(ctx, arg1):
 
 
 ## Black List
-@bot.command()
-async def blacklist(ctx):
-	await ctx.send("Coming soon")
+@bot.command(pass_context=True)
+async def black_add(ctx, arg1=None):
+	print(blacklist_folder+""+str(ctx.author.id))
+	if arg1 is None:	#if not user:
+		await ctx.send("Please, introduce a summoner name to add inside the list!")
+	else:
+		summ_name = arg1
+		try:
+			summoner_list_file_a = open(blacklist_folder+""+str(ctx.author.id), "a")
+			summoner_list_file_r = open(blacklist_folder+""+str(ctx.author.id), "r")
+			file_readed = summoner_list_file_r.read().splitlines()
+			exist=False
+			for line in file_readed:
+				if line == summ_name:
+					exist=True
+			if not exist:
+				summoner_list_file_a.write(summ_name+"\n")
+				await ctx.send("["+summ_name+"] added to the summoner list")
+			else:
+				await ctx.send("["+summ_name+"] is alredy inside the summoner list")
+			summoner_list_file_r.close()
+			summoner_list_file_a.close()
+		except FileNotFoundError:
+			await ctx.send ("Wait... what?! contact the administrator this isn't supposed to happen!")
 
+@bot.command(pass_context=True)
+async def blacklist(ctx, user: discord.User = None):
+	"""use 'list' to check your list, or use 'list @somone' to see his list"""
+	if user is None:	#if not user:
+		user=ctx.author
+	id=str(user.id)
+	try:
+		summoner_list_file_r = open(blacklist_folder+id, "r")
+		file_readed = str(summoner_list_file_r.read().splitlines())
+		if not file_readed :
+			await ctx.send("The user does not have a list, start by adding a summoner name!")
+		else:
+			await ctx.send(user.mention+"'s summoner list: "+file_readed)
+	#except AttributeError:
+	#	await ctx.send ("Fi Fa Fum what u did wrong?")
+	except FileNotFoundError:
+		await ctx.send ("The user does not have a list, start by adding a summoner name!")
+
+	summoner_list_file_r.close()
+
+@bot.command(pass_context=True)
+async def black_del(ctx, arg1):
+	if arg1 is None:	#if not user:
+		await ctx.send("Please, introduce a summoner name to add inside the list!")
+	else:
+		file = ""
+		summ_name = arg1
+		try:
+			summoner_list_file_r = open(blacklist_folder+""+str(ctx.author.id), "r")
+			file_readed = blacklist_folder.read().splitlines()
+			exist=False
+			for line in file_readed:
+				if line == summ_name:
+					exist=True
+				else:
+					file=(file+line+"\n")
+			summoner_list_file_r.close()
+			if exist:
+				summoner_list_file_w = open(summonerlist_folder+""+str(ctx.author.id), "w")
+				await ctx.send("Removed ["+summ_name+"] from the summoner list")
+				summoner_list_file_w.write(file)
+				summoner_list_file_w.close()
+			else:
+				await ctx.send("["+summ_name+"] was not found inside the summoner list")
+
+
+
+		except FileNotFoundError:
+			await ctx.send ("The user does not have a list, start by adding a summoner name!")
 
 
 
