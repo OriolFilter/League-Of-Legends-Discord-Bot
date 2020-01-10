@@ -89,9 +89,7 @@ async def list(ctx, user: discord.User = None):
 	if user is None:	#if not user:
 		user=ctx.author
 	id=str(user.id)
-
 	try:
-		await ctx.send (ctx.author.id)
 		summoner_list_file_r = open(summonerlist_folder+id, "r")
 		print(summonerlist_folder+id)
 		file_readed = str(summoner_list_file_r.read().splitlines())
@@ -106,29 +104,26 @@ async def list(ctx, user: discord.User = None):
 
 	summoner_list_file_r.close()
 
-
-def add_list(discord_user_id):
-	summoner_list_file_a = open(summonerlist_folder+discord_user_id, "a")
-	summoner_list_file_r = open(summonerlist_folder+discord_user_id, "r")
-	file_readed = summoner_list_file_r.read().splitlines()
-	summ_name = input("Introduce the name of the summoner that you want to add to your summoner list\n").lower()
-	##CHECK IF EXISTS
-	print("Checking if the summoner is alredy in")
-
-	exist=False
-	#		while line in file_readed or not exist: #pendent
-	for line in file_readed:
-		print(line)
-		if line == summ_name:
-			exist=True
-	if not exist:
-		summoner_list_file_a.write(summ_name+"\n")
-		print ("Added "+summ_name+" to the summoner list")
+@bot.command(pass_context=True)
+async def add_list(ctx, arg1):
+	if arg1 is None:	#if not user:
+		await ctx.send("Please, introduce a summoner name to add inside the list!")
 	else:
-		print ("This summoner name is alredy in")
+		summ_name = arg1
+		try:
+			summoner_list_file_a = open(summonerlist_folder+""+str(ctx.author.id), "a")
+			summoner_list_file_r = open(summonerlist_folder+""+str(ctx.author.id), "r")
+			file_readed = summoner_list_file_r.read().splitlines()
+			exist=False
+			for line in file_readed:
+				if line == summ_name:
+					exist=True
+			if not exist:
+				summoner_list_file_a.write(summ_name+"\n")
+				await ctx.send("["+summ_name+"] added to the summoner list")
+			else:
+				await ctx.send("["+summ_name+"] is alredy inside the summoner list")
 
-	summoner_list_file_r.close()
-	summoner_list_file_a.close()
 
 def get_summoner(summoner_input):
 	#summoner = Summoner(name=summoner_input)
