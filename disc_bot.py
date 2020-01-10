@@ -8,7 +8,6 @@ from cassiopeia import Summoner
 from discord.ext import commands
 from discord.utils import get
 
-
 description = '''Big boi is here boys'''
 
 #only woking with EUW ATM
@@ -134,6 +133,15 @@ async def list_add(ctx, arg1):
 				await ctx.send("["+summ_name+"] is alredy inside the summoner list")
 		except FileNotFoundError:
 			await ctx.send ("Wait... what?! contact the administrator this isn't supposed to happen!")
+
+@bot.command()
+async def suminfo(ctx, arg1):
+	"""Prints basic summoner info,  usage: ,suminfo 'summoner'"""
+	summoner = get_summoner(arg1)
+	summ_info = "Summoner:\t{name}\nLevel:\t\t\t\t{level}\nRegion:\t\t\t{region}".format(name=summoner.name,
+																						 level=summoner.level,
+																						 region=summoner.region)
+	await ctx.send(summ_info)
 
 
 def get_summoner(summoner_input):
