@@ -11,6 +11,10 @@ from discord.utils import get
 
 description = '''Big boi is here boys'''
 
+#only woking with EUW ATM
+
+#help command must DM a text with the help (pretty cool actually)
+
 bot = commands.Bot(command_prefix=",", description=description)
 
 ##Variables
@@ -83,10 +87,11 @@ def on_message(message):
 async def list(ctx, user: discord.User = None):
 	"""use 'list' to check your list, or use 'list @somone' to see his list"""
 	if user is None:	#if not user:
-		id=(str(ctx.author.id))
-	else:
-		id=(str(user.id))
+		user=ctx.author
+	id=str(user.id)
+
 	try:
+		await ctx.send (ctx.author.id)
 		summoner_list_file_r = open(summonerlist_folder+id, "r")
 		print(summonerlist_folder+id)
 		file_readed = str(summoner_list_file_r.read().splitlines())
@@ -94,12 +99,13 @@ async def list(ctx, user: discord.User = None):
 			await ctx.send("The user does not have a list, start by adding a summoner name!")
 		else:
 			await ctx.send(user.mention+"'s summoner list: "+file_readed)
-	except AttributeError:
-		await ctx.send ("The user does not have a list, start by adding a summoner name!")
+	#except AttributeError:
+	#	await ctx.send ("Fi Fa Fum what u did wrong?")
 	except FileNotFoundError:
 		await ctx.send ("The user does not have a list, start by adding a summoner name!")
 
 	summoner_list_file_r.close()
+
 
 def add_list(discord_user_id):
 	summoner_list_file_a = open(summonerlist_folder+discord_user_id, "a")
@@ -144,7 +150,7 @@ async def rankeu(ctx, arg1):
 		else:
 			user_rank = user_rank+"\n"+get_queue_rank(ctx,entry)
 	if user_rank != "" : #CHECK_if_empty
-		await ctx.send ("\nQueue Name\tTier\t\tDivision\tlp\tLeague Name\n-----------------------------------------------------------------------------------\n"+user_rank) #FORMATAT COLUMNES
+		await ctx.send ("\nMode\t\t\t\t  Tier\t\tDiv\tlp\t  League Name\n---------------------------------------------------------------\n"+user_rank) #FORMATAT COLUMNES
 	else:
 		await ctx.send ("Player it's not currentlly ranked")##debugg
 
@@ -186,9 +192,17 @@ def get_queue_rank(ctx,entry):
 
 	#Formating/check_tier
 	if (str(entry.tier) == "Diamond"):
-		f_tier=str(entry.tier)+"\t"
-	elif (str(entry.tier) == "Platinum") or (str(entry.tier) == "Challenger") or (str(entry.tier) == "Grandmaster"):
-		f_tier=str(entry.tier)
+		f_tier="Dia\t"
+	elif (str(entry.tier) == "Platinum"):
+		f_tier="Plat\t"
+	elif (str(entry.tier) == "Challenger"):
+		f_tier="Chall\t"
+	elif (str(entry.tier) == "Grandmaster"):
+		f_tier="GrandM\t"
+	elif (str(entry.tier) == "Grandmaster"):
+		f_tier="Mastr\t"
+	elif (str(entry.tier) == "Silver"):
+		f_tier="Silv\t"
 	else:
 		f_tier=str(entry.tier)+"\t"
 
