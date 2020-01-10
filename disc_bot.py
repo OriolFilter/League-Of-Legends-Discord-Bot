@@ -50,30 +50,6 @@ async def hello(ctx):
 	await ctx.send('Hello world') #T
 
 
-@bot.command(pass_context=True)
-async def test(ctx, user: discord.User):
-	await ctx.send("JAJAJAJAJAJA")
-	await ctx.send("@"+str(ctx.author.id))
-	await ctx.send(str(user.name))
-	await ctx.send(user.mention)
-	await ctx.send("ABC: "+str(client.get_user(ctx.author.id)))
-	await ctx.send("ABC: "+str(client.get_user(ctx.author.id)))
-#	await ctx.send("ABC: "+client.user.name(ctx.author.id))
-#    print(message.author.id)
-
-@bot.command(pass_context=True)
-async def tests(ctx, user: discord.user):
-	await ctx.send(str(discord.User.id))
-	await ctx.send(str(discord.User.name))
-	await ctx.send(str(discord.User.nicks))
-	if not user:
-		await ctx.send("Try using an argument. For example: !test yes")
-	elif user[0] == "yes":
-		await ctx.send("This is a valid argument!")
-	else:
-		await ctx.send("Not a valid argument!")
-
-
 def on_message(message):
 	print(message.author.id)
 
