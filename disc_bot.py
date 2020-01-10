@@ -46,7 +46,6 @@ async def on_ready():
 
 @bot.command() #0
 async def hello(ctx):
-	global playerdir
 	await ctx.send('Hello world') #T
 
 
