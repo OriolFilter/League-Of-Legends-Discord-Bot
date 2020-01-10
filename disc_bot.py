@@ -91,7 +91,6 @@ async def list(ctx, user: discord.User = None):
 	id=str(user.id)
 	try:
 		summoner_list_file_r = open(summonerlist_folder+id, "r")
-		print(summonerlist_folder+id)
 		file_readed = str(summoner_list_file_r.read().splitlines())
 		if not file_readed :
 			await ctx.send("The user does not have a list, start by adding a summoner name!")
@@ -105,7 +104,42 @@ async def list(ctx, user: discord.User = None):
 	summoner_list_file_r.close()
 
 @bot.command(pass_context=True)
-async def add_list(ctx, arg1):
+async def list_del(ctx, arg1):
+	if arg1 is None:	#if not user:
+		await ctx.send("Please, introduce a summoner name to add inside the list!")
+	else:
+		file = ""
+		summ_name = arg1
+		try:
+			summoner_list_file_r = open(summonerlist_folder+""+str(ctx.author.id), "r")
+			file_readed = summoner_list_file_r.read().splitlines()
+			exist=False
+			for line in file_readed:
+				if line == summ_name:
+					exist=True
+				else:
+					file=(file+line+"\n")
+			summoner_list_file_r.close()
+			if exist:
+				summoner_list_file_w = open(summonerlist_folder+""+str(ctx.author.id), "w")
+				await ctx.send("Removed ["+summ_name+"] from the summoner list")
+				summoner_list_file_w.write(file)
+				summoner_list_file_w.close()
+			else:
+				await ctx.send("["+summ_name+"] was not found inside the summoner list")
+
+
+
+		except FileNotFoundError:
+			await ctx.send ("The user does not have a list, start by adding a summoner name!")
+
+
+
+
+
+
+@bot.command(pass_context=True)
+async def list_add(ctx, arg1):
 	if arg1 is None:	#if not user:
 		await ctx.send("Please, introduce a summoner name to add inside the list!")
 	else:
@@ -123,6 +157,8 @@ async def add_list(ctx, arg1):
 				await ctx.send("["+summ_name+"] added to the summoner list")
 			else:
 				await ctx.send("["+summ_name+"] is alredy inside the summoner list")
+		except FileNotFoundError:
+			await ctx.send ("Wait... what?! contact the administrator this isn't supposed to happen!")
 
 
 def get_summoner(summoner_input):
