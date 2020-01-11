@@ -1,0 +1,44 @@
+```css
+#BigBoiBot
+[https://github.com/OriolFilter/Big_boy_discord-bot]
+```
+**Commands**
+
+```ini
+[summonerlist]       [list|list_add|list_del]
+
+[blacklist]          [blacklist|black_add|black_del]
+
+[summoner_info]      [rankeu|suminfo|mastery]
+
+[misc]               [ching]
+
+[help]               [help]
+```
+**Summoner list**
+```ini
+[b.list:]              [return a summoner list, usage: "b.list"
+                        will return your list, "b.list
+                        @someone" will return his list]
+
+[b.list_add:]          [add a summoner name to your list,
+                        usage: "b.list_add summoner_name"]
+
+[b.list_del:]          [remove a summoner name to your list,
+                        usage: "b.list_del summoner_name"]```
+
+**Summoner blacklist**
+```ini
+[b.blacklist:]          [return a summoner list, usage:
+                         "b.blacklist" will return your list,
+                         "b.blacklist @someone" will return their list]
+
+[b.black_add:]          [add a summoner name to your list,
+                         usage: "b.blacklist_add summoner_name"]
+
+[b.black_del:]          [remove a summoner name to your list,
+                         usage: "b.blacklist_del summoner_name"]```
+
+**Misc**
+```ini
+[b.ching:]          [use 'b.ching chong'!]```

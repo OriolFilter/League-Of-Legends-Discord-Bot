@@ -1,52 +1,58 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import discord
-import random
 import cassiopeia as cass
+import os
 from credentials import *
 from cassiopeia import Summoner
 from discord.ext import commands
 from discord.utils import get
 
-description = '''Big boi is here boys'''
+description = '''Big boi is here to help you out!'''
 
 #only woking with EUW ATM
 
-#help command must DM a text with the help (pretty cool actually)
+bot = commands.Bot(command_prefix="b.", description=description) #b from bigboy
+bot.remove_command('help')
 
-bot = commands.Bot(command_prefix=",", description=description)
 
-##Variables
-where_i_im="/var/git/lol_somthing/" #where is the file/folder of this python document...
-user_folder=where_i_im+"users/"
-blacklist_folder=user_folder+"blacklists/"
+##Variables_start
+where_i_im=os.path.dirname(os.path.abspath(__file__)) #where is the file/folder of this python document...
+user_folder=where_i_im+"/users/"
+blacklist_folder=user_folder+"blacklist/"
 summonerlist_folder=user_folder+"summonerlist/"
-
-client = discord.Client()
+help_file_location=where_i_im+"/help.txt"
+client=discord.Client()
+#Variables_End
 
 #Config_start
-cass.set_riot_api_key(key)  # This overrides the value set in your configuration/settings.
-cass.set_default_region("EUW") #Regio per defecte
+cass.set_riot_api_key(key)
+cass.set_default_region("EUW") #Default region
 #Config_end
 
-##Commands
-
+##Commands_start
 @bot.event
 async def on_ready():
+	print('------')
 	print('Logged as')
 	print(bot.user.name)
 	print(bot.user.id)
 	print('------')
+	game = discord.Game("No worries, im here for you, type \"b.help\" so i can help!")
+	await bot.change_presence(status=discord.Status.online, activity=game)
 
-@bot.command() #0
-async def hello(ctx):
-	await ctx.send('Hello world') #T
-
-
-
+##Check_if_folder_exists_start
+if not os.path.isdir(blacklist_folder) or not os.path.isdir(summonerlist_folder):
+	print ("if party start")
+	if not os.path.isdir(blacklist_folder):
+		os.makedirs(blacklist_folder)
+	if not os.path.isdir(summonerlist_folder):
+		os.makedirs(summonerlist_folder)
+	os.walk("chmod 700"+user_folder+" -R && chown "+str(os.geteuid())+":"+str(os.getegid())+" -R")
+#Check_if_folder_exists_end
 
 #############################################################################
-#								Definitions									#
+#				Definitions				    #
 #############################################################################
 
 
@@ -54,7 +60,6 @@ def get_summoner(summoner_input):
 	#summoner = Summoner(name=summoner_input)
 	summoner = cass.get_summoner(name=summoner_input)
 	return(summoner)
-
 
 @bot.command()
 async def suminfo(ctx, arg1):
@@ -67,7 +72,6 @@ async def suminfo(ctx, arg1):
 
 @bot.command()
 async def rankeu(ctx, arg1):
-	"""use 'rankeu *account*' to check the elo from this account (in the EWU server)"""
 	summoner = get_summoner(arg1)
 
 	entries = summoner.league_entries
@@ -84,7 +88,7 @@ async def rankeu(ctx, arg1):
 
 #GET_QUEUE_NAME
 def get_queue_rank(ctx,entry):
-	if ("SOLO" in str([entry.queue])):	##podria fer una variable que emmagatzemes el format
+	if ("SOLO" in str([entry.queue])):
 		queue_name = "Solo/Duo 5v5"
 	elif ("flex" in str([entry.queue])):
 		queue_name = "Flex 5v5"
@@ -115,8 +119,6 @@ def get_queue_rank(ctx,entry):
 
 @bot.command(pass_context=True)
 async def mastery(ctx,arg1,arg2,arg3):
-	#"""syntax: ',mastery summoner_name comparative_argument number' where summoner_name it's a summoner name, comparative_argument it's one of this options {== (equal),< (smaller than), > (bigger than), >= bigger (than or equal), <= (smaller than or equal)}"""
-	"""usage: ',mastery summoner_name '>/</>=/<=/==/!=' number' where summoner_name it's a summoner name, comparative_argument it's one of this options {== (equal),< (smaller than), > (bigger than), >= bigger (than or equal), <= (smaller than or equal)}"""
 	mastery_level = arg3
 	print(arg1,arg2,arg3)
 	if arg3 is None:
@@ -130,8 +132,6 @@ async def mastery(ctx,arg1,arg2,arg3):
 		print(text)
 		await ctx.send(text)
 
-
-
 ## Summ List
 
 @bot.command(pass_context=True)
@@ -141,8 +141,8 @@ async def list_add(ctx, arg1=None):
 	else:
 		summ_name = arg1
 		try:
-			summoner_list_file_a = open(summonerlist_folder+""+str(ctx.author.id), "a")
-			summoner_list_file_r = open(summonerlist_folder+""+str(ctx.author.id), "r")
+			summoner_list_file_a = open(summonerlist_folder+str(ctx.author.id), "a")
+			summoner_list_file_r = open(summonerlist_folder+str(ctx.author.id), "r")
 			file_readed = summoner_list_file_r.read().splitlines()
 			exist=False
 			for line in file_readed:
@@ -160,7 +160,6 @@ async def list_add(ctx, arg1=None):
 
 @bot.command(pass_context=True)
 async def list(ctx, user: discord.User = None):
-	"""use 'list' to check your list, or use 'list @somone' to see his list"""
 	if user is None:	#if not user:
 		user=ctx.author
 	id=str(user.id)
@@ -171,8 +170,6 @@ async def list(ctx, user: discord.User = None):
 			await ctx.send("The user does not have a list, start by adding a summoner name!")
 		else:
 			await ctx.send(user.mention+"'s summoner list: "+file_readed)
-	#except AttributeError:
-	#	await ctx.send ("Fi Fa Fum what u did wrong?")
 	except FileNotFoundError:
 		await ctx.send ("The user does not have a list, start by adding a summoner name!")
 
@@ -186,7 +183,7 @@ async def list_del(ctx, arg1):
 		file = ""
 		summ_name = arg1
 		try:
-			summoner_list_file_r = open(summonerlist_folder+""+str(ctx.author.id), "r")
+			summoner_list_file_r = open(summonerlist_folder+str(ctx.author.id), "r")
 			file_readed = summoner_list_file_r.read().splitlines()
 			exist=False
 			for line in file_readed:
@@ -196,15 +193,12 @@ async def list_del(ctx, arg1):
 					file=(file+line+"\n")
 			summoner_list_file_r.close()
 			if exist:
-				summoner_list_file_w = open(summonerlist_folder+""+str(ctx.author.id), "w")
+				summoner_list_file_w = open(summonerlist_folder+str(ctx.author.id), "w")
 				await ctx.send("Removed ["+summ_name+"] from the summoner list")
 				summoner_list_file_w.write(file)
 				summoner_list_file_w.close()
 			else:
 				await ctx.send("["+summ_name+"] was not found inside the summoner list")
-
-
-
 		except FileNotFoundError:
 			await ctx.send ("The user does not have a list, start by adding a summoner name!")
 
@@ -213,14 +207,13 @@ async def list_del(ctx, arg1):
 ## Black List
 @bot.command(pass_context=True)
 async def black_add(ctx, arg1=None):
-	print(blacklist_folder+""+str(ctx.author.id))
 	if arg1 is None:	#if not user:
 		await ctx.send("Please, introduce a summoner name to add inside the list!")
 	else:
 		summ_name = arg1
 		try:
-			summoner_list_file_a = open(blacklist_folder+""+str(ctx.author.id), "a")
-			summoner_list_file_r = open(blacklist_folder+""+str(ctx.author.id), "r")
+			summoner_list_file_a = open(blacklist_folder+str(ctx.author.id), "a")
+			summoner_list_file_r = open(blacklist_folder+str(ctx.author.id), "r")
 			file_readed = summoner_list_file_r.read().splitlines()
 			exist=False
 			for line in file_readed:
@@ -238,23 +231,20 @@ async def black_add(ctx, arg1=None):
 
 @bot.command(pass_context=True)
 async def blacklist(ctx, user: discord.User = None):
-	"""use 'list' to check your list, or use 'list @somone' to see his list"""
-	if user is None:	#if not user:
+	if user is None:
 		user=ctx.author
 	id=str(user.id)
 	try:
-		summoner_list_file_r = open(blacklist_folder+id, "r")
+		summoner_list_file_r = open(blacklist_folder+"+"+id, "r")
 		file_readed = str(summoner_list_file_r.read().splitlines())
 		if not file_readed :
 			await ctx.send("The user does not have a list, start by adding a summoner name!")
 		else:
 			await ctx.send(user.mention+"'s summoner list: "+file_readed)
-	#except AttributeError:
-	#	await ctx.send ("Fi Fa Fum what u did wrong?")
+		summoner_list_file_r.close()
 	except FileNotFoundError:
 		await ctx.send ("The user does not have a list, start by adding a summoner name!")
 
-	summoner_list_file_r.close()
 
 @bot.command(pass_context=True)
 async def black_del(ctx, arg1):
@@ -264,7 +254,7 @@ async def black_del(ctx, arg1):
 		file = ""
 		summ_name = arg1
 		try:
-			summoner_list_file_r = open(blacklist_folder+""+str(ctx.author.id), "r")
+			summoner_list_file_r = open(blacklist_folder+str(ctx.author.id), "r")
 			file_readed = blacklist_folder.read().splitlines()
 			exist=False
 			for line in file_readed:
@@ -274,15 +264,12 @@ async def black_del(ctx, arg1):
 					file=(file+line+"\n")
 			summoner_list_file_r.close()
 			if exist:
-				summoner_list_file_w = open(summonerlist_folder+""+str(ctx.author.id), "w")
+				summoner_list_file_w = open(summonerlist_folder+str(ctx.author.id), "w")
 				await ctx.send("Removed ["+summ_name+"] from the summoner list")
 				summoner_list_file_w.write(file)
 				summoner_list_file_w.close()
 			else:
 				await ctx.send("["+summ_name+"] was not found inside the summoner list")
-
-
-
 		except FileNotFoundError:
 			await ctx.send ("The user does not have a list, start by adding a summoner name!")
 
@@ -292,9 +279,19 @@ async def black_del(ctx, arg1):
 ### EXTRA ###
 @bot.command()
 async def ching(ctx, text:str):
-	"""call me .ching chong"""
 	if text=="chong":
 		await ctx.send("Your champion is wrong!")
+
+
+# HELP
+@bot.command()
+async def help(ctx):
+
+	help_ms = open((help_file_location), "r")
+	help_message = help_ms.read()
+	help_ms.close()
+
+	await ctx.send(help_message)
 
 
 bot.run(TOKEN)

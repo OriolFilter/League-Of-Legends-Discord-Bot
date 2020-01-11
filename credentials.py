@@ -1,4 +1,7 @@
-### KEY
+### Riot KEY
 
 key="RIOTAPIKEY"
 
+### Discord KEY
+
+TOKEN = "DISCORDAPITOKEN"
