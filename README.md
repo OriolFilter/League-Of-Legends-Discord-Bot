@@ -1,4 +1,4 @@
-# lol_somthing_pythong
+# Big boi [discord bot]
 
 	Discord bot wich uses RIOT Games api to extract info
 
