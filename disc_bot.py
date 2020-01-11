@@ -279,6 +279,6 @@ async def help(ctx):
 	help_message = help_ms.read()
 	help_ms.close()
 
-	await ctx.send(help_message)
+	await ctx.author.send(help_message)
 
 bot.run(TOKEN)

@@ -29,3 +29,15 @@
 ## Help
 
 	help:			{help}
+
+#Requisites
+
+    install cassiopeia library: pip3 install cassiopeia
+    
+    install discord library:    pip3 install discord
+    
+    All tested on python3.8, in case you use a previous version, i can't ensure all work correctlly. 
+    
+#Disclaimer
+
+    I don't own any of the libraries used, and of course i don't work with Riot and im not owner of any of the data about League of Legends
