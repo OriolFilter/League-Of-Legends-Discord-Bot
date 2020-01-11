@@ -15,7 +15,6 @@ description = '''Big boi is here to help you out!'''
 bot = commands.Bot(command_prefix="b.", description=description) #b from bigboy
 bot.remove_command('help')
 
-
 ##Variables_start
 where_i_im=os.path.dirname(os.path.abspath(__file__)) #where is the file/folder of this python document...
 user_folder=where_i_im+"/users/"
@@ -55,7 +54,6 @@ if not os.path.isdir(blacklist_folder) or not os.path.isdir(summonerlist_folder)
 #				Definitions				    #
 #############################################################################
 
-
 def get_summoner(summoner_input):
 	#summoner = Summoner(name=summoner_input)
 	summoner = cass.get_summoner(name=summoner_input)
@@ -71,7 +69,7 @@ async def suminfo(ctx, arg1):
 	await ctx.send(summ_info)
 
 @bot.command()
-async def rankeu(ctx, arg1):
+async def eloeu(ctx, arg1):
 	summoner = get_summoner(arg1)
 
 	entries = summoner.league_entries
@@ -114,9 +112,7 @@ def get_queue_rank(ctx,entry):
 	queue_values = queue_name+"\t"+f_tier+"\t"+str(entry.division)+"\t\t"+str(entry.league_points)+"\t"+str(entry.league.name)
 	return(queue_values)
 
-
 #Mastery
-
 @bot.command(pass_context=True)
 async def mastery(ctx,arg1,arg2,arg3):
 	mastery_level = arg3
@@ -202,8 +198,6 @@ async def list_del(ctx, arg1):
 		except FileNotFoundError:
 			await ctx.send ("The user does not have a list, start by adding a summoner name!")
 
-
-
 ## Black List
 @bot.command(pass_context=True)
 async def black_add(ctx, arg1=None):
@@ -245,7 +239,6 @@ async def blacklist(ctx, user: discord.User = None):
 	except FileNotFoundError:
 		await ctx.send ("The user does not have a list, start by adding a summoner name!")
 
-
 @bot.command(pass_context=True)
 async def black_del(ctx, arg1):
 	if arg1 is None:	#if not user:
@@ -273,25 +266,19 @@ async def black_del(ctx, arg1):
 		except FileNotFoundError:
 			await ctx.send ("The user does not have a list, start by adding a summoner name!")
 
-
-
-
 ### EXTRA ###
 @bot.command()
 async def ching(ctx, text:str):
 	if text=="chong":
 		await ctx.send("Your champion is wrong!")
 
-
 # HELP
 @bot.command()
 async def help(ctx):
-
 	help_ms = open((help_file_location), "r")
 	help_message = help_ms.read()
 	help_ms.close()
 
 	await ctx.send(help_message)
-
 
 bot.run(TOKEN)

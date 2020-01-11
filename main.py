@@ -10,6 +10,7 @@ from cassiopeia import Summoner
 #
 import simplejson
 
+##Variables
 user_folder="users/"
 blacklist_folder=user_folder+"blacklist/"
 summonerlist_folder=user_folder+"summonerlist/"
@@ -31,13 +32,12 @@ def ask_summoner_name():
 	summoner_input = input("Who you wanna search for? ")
 	#summoner = Summoner(name=summoner_input)
 	summoner = cass.get_summoner(name=summoner_input)
-	print ("\nSearching for ",summoner_input)
+	print("\nSearching for ",summoner_input)
 
 #Rank
 
 def get_rank():
 	entries = summoner.league_entries
-	print (entries)
 	user_rank = ""
 	for entry in entries:
 		if user_rank == "":
@@ -47,8 +47,8 @@ def get_rank():
 			user_rank = user_rank+"\n"+get_queue_rank(entry)
 	if user_rank != "" : #CHECK_if_empty 
 		print ("\nQueue Name\tTier\t\tDivision\tlp\tLeague Name\n-----------------------------------------------------------------------------------\n"+user_rank) #FORMATAT COLUMNES
-#	else:
-		#print("USER EMPTY")##debugg
+	else:
+		print("empty_rank")##debugg
 
 
 #GET_QUEUE_NAME
@@ -75,8 +75,8 @@ def get_queue_rank(entry):
 
 def summoner_info():
 	summ_info = "Summoner:\t{name}\nLevel:\t\t{level}\nRegion:\t\t{region}".format(name=summoner.name,
-									     level=summoner.level,
-									     region=summoner.region)
+																			     	level=summoner.level,
+									    											region=summoner.region)
 	print (summ_info)
 
 
@@ -88,7 +88,7 @@ def get_mastery_champions_above():
 	comparative_argument, comparative_text=get_comparative_argument()
 	mastery_level=get_mastery_level()
 	good_with =eval ("summoner.champion_masteries.filter(lambda cm: cm.level {arg} {mastery_level})".format(arg=comparative_argument,
-														mastery_level=mastery_level))  #get the info
+																											mastery_level=mastery_level))  #get the info
 	print("\nPrinting champions from ",summoner_input," which are ",comparative_text," mastery level ",mastery_level)
 	print([cm.champion.name for cm in good_with])
 	#print(good_with) #List objects, learn to print objects and deal with them!
@@ -213,6 +213,7 @@ def add_summoner_list(discord_user_id):
 			print(line)
 			if line == summ_name:
 				exist=True
+				print("TRUE")
 		if not exist:
 			summoner_list_file_a.write(summ_name+"\n")
 			print ("Added "+summ_name+" to the summoner list")
@@ -243,7 +244,7 @@ def menu():
 					if argument_menu == 1:
 						ask_summoner_name()
 						print("Checking Summoner rank")
-						summoner_info()
+						#summoner_info()
 						get_rank()
 					elif argument_menu == 2:
 						#ask_summoner_name()
