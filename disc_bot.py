@@ -124,7 +124,7 @@ async def mastery(ctx,arg1,arg2,arg3):
 		good_with =eval ("summoner.champion_masteries.filter(lambda cm: cm.level {arg} {mastery_level})".format(arg=arg2,
 																												mastery_level=arg3))  #get the info
 		text = arg1 +" "+arg2+" "+arg3+"\n"
-		text = text +"```"+str([cm.champion.name for cm in good_with])+"``` "+arg2+arg3
+		text = text +"```"+str([cm.champion.name for cm in good_with])+"``` "
 		print(text)
 		await ctx.send(text)
 
