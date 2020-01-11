@@ -1,6 +1,6 @@
 # Big boi [discord bot]
 
-	Discord bot wich uses RIOT Games api to extract info
+	Discord bot which uses RIOT Games api to extract info
 
 
 ## Utilities
@@ -41,3 +41,22 @@
 #Disclaimer
 
     I don't own any of the libraries used, and of course i don't work with Riot and im not owner of any of the data about League of Legends
+
+
+
+## Patch notes
+
+    #1.0
+    
+    	accounts_list: 		{list|list_add|list_del}
+       	blacklist_list: 	{blacklist|black_add|black_del}
+	    EUW:		      	{eloeu|suminfo|mastery}
+		misc:		    	{ching}
+		help:			    {help}
+		
+		
+#Possible future updates
+
+    Being able to vinculate your account, so you don't have to rename the list when you change you name
+    
+    Being able to print the elo from all the acounts of somone
