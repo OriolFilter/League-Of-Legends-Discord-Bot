@@ -12,7 +12,7 @@ description = '''Big boi is here to help you out!'''
 
 #only woking with EUW ATM
 
-bot = commands.Bot(command_prefix="-", description=description) #b from bigboy
+bot = commands.Bot(command_prefix="b.", description=description) #b from bigboy
 bot.remove_command('help')
 
 ##Variables_start
