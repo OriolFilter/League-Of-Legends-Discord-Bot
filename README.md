@@ -50,13 +50,28 @@
     
     	accounts_list: 		{list|list_add|list_del}
        	blacklist_list: 	{blacklist|black_add|black_del}
-	    EUW:		      	{eloeu|suminfo|mastery}
-		misc:		    	{ching}
-		help:			    {help}
-		
-		
+	        EUW:		      	{eloeu|suminfo|mastery}
+		misc:		    	{ching|free|new}
+		help:                   {help}
+	
+	#1.1
+	    
+	    suminfo,eloeu       Now reply error message if 'summoner_name' was not found in EUW
+	    
+	                        Using the command without argument will return the command for each of the account inside your 'summoner_list'
+	    
+	                        Using the command with a user as a argument withll return the comaman for each of the accounts inside their 'summoner_list'
+        
+        free                *added command* Returns the weekly champion rotation
+        
+        new                 *added command* Returns the champion rotation for new players
+        
+        help                Updated help with the actual changes
+        
+                            
+
 #Possible future updates
 
     Being able to vinculate your account, so you don't have to rename the list when you change you name
     
-    Being able to print the elo from all the acounts of somone
+    status command to check server status
