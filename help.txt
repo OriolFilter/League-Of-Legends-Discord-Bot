@@ -11,7 +11,7 @@
 
 [summoner_info]      [eloeu|suminfo|mastery]
 
-[misc]               [ching]
+[misc]               [ching|free|new]
 
 [help]               [help]
 ```
