@@ -20,7 +20,8 @@ where_i_im=os.path.dirname(os.path.abspath(__file__)) #where is the file/folder 
 user_folder=where_i_im+"/users/"
 blacklist_folder=user_folder+"blacklist/"
 summonerlist_folder=user_folder+"summonerlist/"
-help_file_location=where_i_im+"/help.txt"
+help_p1_file_location=where_i_im+"/help_pt1.txt"
+help_p2_file_location=where_i_im+"/help_pt2.txt"
 client=discord.Client()
 #Variables_End
 
@@ -194,7 +195,7 @@ async def mastery(ctx,arg1,arg2,arg3):
 ## Summ List
 
 @bot.command(pass_context=True)
-async def list_add(ctx, arg1=None):
+async def list_add(ctx, arg1=None):	#in a future it will send a mp with a key to vinculate your account with the app
 	if arg1 is None:	#if not user:
 		await ctx.send("Please, introduce a summoner name to add inside the list!")
 	else:
@@ -347,19 +348,37 @@ async def new(ctx):
 			message = message+str(champion.name)+"\t"
 	await ctx.send(message+"```")
 
+@bot.command()
+async def patch(ctx):
+	await ctx.send("Disabled")
+
 ### EXTRA ###
 @bot.command()
 async def ching(ctx, text:str):
 	if text=="chong":
 		await ctx.send("Your champion is wrong!")
 
+@bot.command()
+async def status(ctx):
+	await ctx.send("In progress")
+	print(cass.get_status())
+	print(cass.ShardStatus())
+	print([])
+
+@bot.command()
+async def ingame(ctx):
+	await ctx.send("Disabled")
+
 # HELP
 @bot.command()
 async def help(ctx):
-	help_ms = open((help_file_location), "r")
-	help_message = help_ms.read()
-	help_ms.close()
-
-	await ctx.author.send(help_message)
+	help_p1 = open((help_p1_file_location), "r")
+	help_msp1 = help_p1.read()
+	help_p1.close()
+	help_p2 = open((help_p2_file_location), "r")
+	help_msp2 = help_p2.read()
+	help_p2.close()
+	await ctx.author.send(help_msp1)
+	await ctx.author.send(help_msp2)
 
 bot.run(TOKEN)

@@ -24,7 +24,7 @@
 
 ## Misc
 
-	misc:			{ching}
+	misc:			{ching|free|new}
 
 ## Help
 
@@ -68,10 +68,20 @@
         
         help                Updated help with the actual changes
         
-                            
+    #1.2
+    
+        help                Now in 2 files due text-limit caracters
 
-#Possible future updates
+# Possible future updates
 
     Being able to vinculate your account, so you don't have to rename the list when you change you name
     
-    status command to check server status
+    Status command to check server status
+    
+    Patch notes
+    
+    Check More info (kda, w/r, games played Wins-Loses)
+    
+    Check if a summoner is ingame (b.ing @someone) *list noises* -> summoner does not have any account ingame / the account 'XXXXX' from @XXX is ingame (xmins) | @XXX is alredy playying\nchamp:\tXchampion\n\t     (embed info!)
+    
+    
