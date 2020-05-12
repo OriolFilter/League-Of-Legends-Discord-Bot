@@ -1,15 +1,13 @@
 ### Riot KEY
 
-key="RIOT API"
+key="RGAPI-38169e08-50b9-40d8-9561-68d957a61934"
 
 ### Discord KEY
 
-TOKEN = "DISCORD BOT TOKEN"
+TOKEN = "NjY0NzM1Nzg1ODYxNTEzMjI3.Xrn3pQ.mjfFZa7SEcOdOSBqE_eI6gLP1lY"
 
-### Database
-
-userDB='USER'
-passDB='PASSWORD'
-dbName='DATABASE NAME'
+userDB='user2'
+passDB='pass'
+dbName='EUWgg'
 PORT=3306 #Default might be 3306
-HOST='IP/LOCALHOST/WHERE IS THE HOST OF THE DB'
+HOST='192.168.1.116'
