@@ -6,6 +6,8 @@ key="RIOT API"
 
 TOKEN = "DISCORD BOT TOKEN"
 
+### Database
+
 userDB='USER'
 passDB='PASSWORD'
 dbName='DATABASE NAME'
