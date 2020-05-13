@@ -1,0 +1,3 @@
+$GIT_DIR/.gitignore
+$GIT_DIR/credentials.py
+$GIT_DIR/__pycache__

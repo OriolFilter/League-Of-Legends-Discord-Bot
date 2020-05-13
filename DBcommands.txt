@@ -1,0 +1,25 @@
+create database EUWgg; /*create database euwgg*/
+use EUWgg; /*use EUWgg*/
+
+/*Per fer-ho be, es crearia una base de dades per regio, també, no serveix de res guardar 'regio'*/
+/*crear user*/
+CREATE USER manager IDENTIFIED BY 'pass';
+/*donar permisos a user*/
+grant usage on *.* to 'user2'@localhost identified by 'pass';
+grant usage on *.* to 'user2'@'%' identified by 'pass';
+grant all privileges on *.* to 'manager'@localhost identified by 'pass';  /*grant all alomillor un pel nazi, pero funciona ara per ara, en un futur ficar bé els permisos*/
+grant all privileges on *.* to 'manager'@'%' identified by 'pass';
+flush privileges;
+/*crear taula user*/
+create or replace table SUMMONERINFO (SID varchar(50) primary key not null, SNAME varchar(16), LEVEL int, ICON int,REGION varchar(4) check(REGION=upper(REGION)) );
+/*crear taula ranked info soloQ*/
+create or replace table SOLOQINFO (SID varchar(50) primary key not null, STIER VARCHAR(15) NULL, SDIV varchar(3) NULL,SLP INTEGER NULL, SLNAME VARCHAR (40) NULL);
+/*crear taula ranked info flexQ*/
+create or replace table FLEXQINFO (SID varchar(50) primary key not null, FTIER VARCHAR(15) NULL, FDIV varchar(3) NULL,FLP INTEGER NULL, FLNAME VARCHAR (40) NULL);
+/*crear taula revision date*/
+
+create or replace table REVISIONDATE (SID varchar(50) primary key not null, DATE DATETIME NOT NULL);
+
+
+/*afegir iconos (int) a la taula d'info de l'usuari*/
+
