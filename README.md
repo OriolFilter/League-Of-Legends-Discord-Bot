@@ -1,4 +1,4 @@
-# Big boi [discord bot]
+# League of Legends Discord Bot
 
 	Discord bot which uses RIOT Games api to extract info
 
